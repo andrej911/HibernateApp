@@ -16,14 +16,13 @@ public class App {
 		try {
 			session.beginTransaction();
 
-			Person person = session.get(Person.class, 1);
+			Person person1 = new Person("Test1", 25);
+			Person person2 = new Person("Test1", 35);
+			Person person3 = new Person("Test1", 45);
 
-			if (person != null) {
-				System.out.println(person.getName());
-				System.out.println(person.getAge());
-			} else {
-				System.out.println("Человек с id=1 не найден.");
-			}
+			session.persist(person1);
+			session.persist(person2);
+			session.persist(person3);
 
 			session.getTransaction().commit();
 
