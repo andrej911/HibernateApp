@@ -16,13 +16,8 @@ public class App {
 		try {
 			session.beginTransaction();
 
-			Person person1 = new Person("Test1", 25);
-			Person person2 = new Person("Test1", 35);
-			Person person3 = new Person("Test1", 45);
-
-			session.persist(person1);
-			session.persist(person2);
-			session.persist(person3);
+			Person person = session.get(Person.class, 2);
+			person.setName("New name");
 
 			session.getTransaction().commit();
 
