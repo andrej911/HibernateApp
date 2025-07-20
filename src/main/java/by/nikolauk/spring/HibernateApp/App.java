@@ -1,5 +1,7 @@
 package by.nikolauk.spring.HibernateApp;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,12 +18,12 @@ public class App {
 		try {
 			session.beginTransaction();
 
-			Person person = new Person("Some name", 55);
-			session.persist(person);
+			List<Person> people = session.createQuery("FROM Person where name LIKE 'T%'").getResultList();
+			
+			for (Person person : people)
+				System.out.println(person);
 
 			session.getTransaction().commit();
-
-			System.out.println(person.getId());
 
 		} finally {
 			sessionFactory.close();
