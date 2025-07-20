@@ -14,8 +14,10 @@ public class Person {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "person_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator = "seq_generator_person")
+	@SequenceGenerator(name = "seq_generator_person", 
+	sequenceName = "person_id_seq",allocationSize = 1)
 	private int id;
 
 	@Column(name = "name")
@@ -29,7 +31,7 @@ public class Person {
 
 	public Person(String name, int age) {
 
-		this.id = id;
+		
 		this.name = name;
 		this.age = age;
 	}
