@@ -1,21 +1,22 @@
 package by.nikolauk.spring.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "Person1")
+public class Person1 {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_generator_person")
-	@SequenceGenerator(name = "seq_generator_person", sequenceName = "person_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name = "name")
@@ -24,21 +25,24 @@ public class Person {
 	@Column(name = "age")
 	private int age;
 
-	public Person() {
+	@OneToMany(mappedBy = "owner")
+	private List<Item> items;
+
+	public Person1() {
 	}
 
-	public Person(String name, int age) {
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+	public Person1(String name, int age) {
 
 		this.name = name;
 		this.age = age;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -56,9 +60,10 @@ public class Person {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+
+	@Override
 	public String toString() {
-		return this.name + ", " + this.age;
+		return "Person1 [id=" + id + ", name=" + name + ", age=" + age + "]";
 	}
 
 }
