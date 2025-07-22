@@ -29,9 +29,8 @@ public class Item {
 
 	}
 
-	public Item(String itemName, Person1 owner) {
+	public Item(String itemName) {
 		this.itemName = itemName;
-		this.owner = owner;
 	}
 
 	public int getId() {
@@ -56,11 +55,6 @@ public class Item {
 
 	public void setOwner(Person1 owner) {
 		this.owner = owner;
-	}
-
-	public Item(String itemName) {
-		;
-		this.itemName = itemName;
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package by.nikolauk.spring.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +29,7 @@ public class Person1 {
 	@Column(name = "age")
 	private int age;
 
-	@OneToMany(mappedBy = "owner")
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
 	private List<Item> items;
 
 	public Person1() {
@@ -59,6 +63,14 @@ public class Person1 {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public void addItem(Item item) {
+		if (this.items == null)
+			this.items = new ArrayList<>();
+
+		this.items.add(item);
+		item.setOwner(this);
 	}
 
 	@Override
