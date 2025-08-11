@@ -1,23 +1,17 @@
 package by.nikolauk.spring.HibernateApp;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import by.nikolauk.spring.model.Item;
-import by.nikolauk.spring.model.Person1;
+import by.nikolauk.spring.model.Passport;
+import by.nikolauk.spring.model.Person2;
 
 public class App {
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
-		Configuration configuration = new Configuration().addAnnotatedClass(Person1.class)
-				.addAnnotatedClass(Item.class);
+		Configuration configuration = new Configuration().addAnnotatedClass(Person2.class)
+				.addAnnotatedClass(Passport.class);
 
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		Session session = sessionFactory.getCurrentSession();
@@ -25,13 +19,27 @@ public class App {
 		try {
 			session.beginTransaction();
 
-			Person1 person = new Person1("Test cascading", 30);
-
-			person.addItem(new Item("Item1"));
-			person.addItem(new Item("Item2"));
-			person.addItem(new Item("Item3"));
-
+			// Создаем человека и паспорт
+			Person2 person = new Person2("Test person4", 39);
+			Passport passport = new Passport(6520123);
+			person.setPassport(passport);
 			session.persist(person);
+
+			// Получаем номер паспорта
+			// Person2 person = session.find(Person2.class, 2);
+			// System.out.println(person.getPassport().getPassportNumber());
+
+			// Получаем имя человека
+			// Passport passport = session.find(Passport.class, 2);
+			// System.out.println(passport.getPerson().getName());
+
+			// Изменяем номер пасспорта
+			// Person2 person = session.find(Person2.class, 3);
+			// person.getPassport().setPassportNumber(777779);
+
+			// Удаляем человека
+			// Person2 person = session.find(Person2.class, 2);
+			// session.remove(person);
 
 			session.getTransaction().commit();
 

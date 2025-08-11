@@ -1,22 +1,17 @@
 package by.nikolauk.spring.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.annotations.Cascade;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Person1")
-public class Person1 {
+@Table(name = "Person2")
+public class Person2 {
 
 	@Id
 	@Column(name = "id")
@@ -29,24 +24,24 @@ public class Person1 {
 	@Column(name = "age")
 	private int age;
 
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
-	private List<Item> items;
+	@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+	private Passport passport;
 
-	public Person1() {
+	public Person2() {
 	}
 
-	public List<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-
-	public Person1(String name, int age) {
+	public Person2(String name, int age) {
 
 		this.name = name;
 		this.age = age;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -65,17 +60,17 @@ public class Person1 {
 		this.age = age;
 	}
 
-	public void addItem(Item item) {
-		if (this.items == null)
-			this.items = new ArrayList<>();
+	public Passport getPassport() {
+		return passport;
+	}
 
-		this.items.add(item);
-		item.setOwner(this);
+	public void setPassport(Passport passport) {
+		this.passport = passport;
+		passport.setPerson(this);
 	}
 
 	@Override
 	public String toString() {
 		return "Person1 [id=" + id + ", name=" + name + ", age=" + age + "]";
 	}
-
 }
