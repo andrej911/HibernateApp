@@ -1,17 +1,22 @@
 package by.nikolauk.spring.model;
 
+import java.util.List;
+import java.util.Objects;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Person2")
-public class Person2 {
+@Table(name = "Actor")
+public class Actor {
 
 	@Id
 	@Column(name = "id")
@@ -24,14 +29,14 @@ public class Person2 {
 	@Column(name = "age")
 	private int age;
 
-	@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
-	private Passport passport;
+	@ManyToMany
+	@JoinTable(name = "Actor_Movie", joinColumns = @JoinColumn(name = "actor_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
+	private List<Movie> movies;
 
-	public Person2() {
+	public Actor() {
 	}
 
-	public Person2(String name, int age) {
-
+	public Actor(String name, int age) {
 		this.name = name;
 		this.age = age;
 	}
@@ -60,13 +65,29 @@ public class Person2 {
 		this.age = age;
 	}
 
-	public Passport getPassport() {
-		return passport;
+	public List<Movie> getMovies() {
+		return movies;
 	}
 
-	public void setPassport(Passport passport) {
-		this.passport = passport;
-		passport.setPerson(this);
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Actor other = (Actor) obj;
+		return age == other.age && id == other.id && Objects.equals(name, other.name);
 	}
 
 	@Override
